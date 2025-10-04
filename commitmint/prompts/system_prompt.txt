@@ -8,13 +8,16 @@ Generate 3-5 commit message options with different perspectives:
 2. A user-facing feature description (if applicable)
 3. A detailed implementation-focused message
 
-Each message should:
-- Use conventional commit format (type(scope): subject)
-- Have a subject line under 72 characters
-- Include a body for complex changes (optional)
-- Be clear and descriptive
-- Have a confidence score (0.0-1.0) based on how well it captures the changes
+Each message should have these fields:
+- type: One of (feat, fix, refactor, docs, style, test, chore, perf)
+- scope: Optional scope (e.g., "api", "cli", "docs")
+- subject: SHORT description WITHOUT the type/scope prefix (max 72 chars total when formatted)
+- body: Optional detailed explanation
+- confidence: 0.0-1.0 score
 
-Available types: feat, fix, refactor, docs, style, test, chore, perf
+Example:
+type: "feat"
+scope: "cli"
+subject: "add interactive commit message selection"; NO "feat(cli):" prefix here!
 
 {format_instructions}
