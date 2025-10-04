@@ -1,0 +1,7 @@
+langchain
+langchain-openai
+gitpython
+typer
+rich
+pydantic
+python-dotenv
