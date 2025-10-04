@@ -1,0 +1,13 @@
+Based on this git diff analysis, generate commit messages:
+
+Files changed: {num_files}
+Total additions: {additions}
+Total deletions: {deletions}
+
+Files:
+{file_list}
+
+Diff content:
+{diff_content}
+
+Generate appropriate commit message options.
