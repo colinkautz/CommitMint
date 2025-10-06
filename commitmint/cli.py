@@ -11,7 +11,7 @@ from .generator import generate_messages
 from .providers import Provider, check_api_key, get_provider_info, DEFAULT_MODELS
 from .config import load_config, save_config, create_default_config, get_config_path
 
-app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator")
+app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator", add_completion=False)
 console = Console()
 
 
