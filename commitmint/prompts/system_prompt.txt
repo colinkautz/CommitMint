@@ -13,7 +13,7 @@ Each message should have these fields:
 - scope: Optional scope (e.g., "api", "cli", "docs")
 - subject: SHORT description WITHOUT the type/scope prefix (max 80 chars total when formatted)
 - body: Optional detailed explanation
-- confidence: 0.0-1.0 score
+- confidence: Decimal number between 0.0 and 1.0 (e.g., 0.92, 0.85, 0.9)
 
 Example:
 type: "feat"
