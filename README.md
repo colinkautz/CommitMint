@@ -115,11 +115,11 @@ num_options: 5
 
 ## Supported Providers
 
-| Provider  | Default Model            | API Key Required  |
-|-----------|--------------------------|-------------------|
-| OpenAI    | gpt-4o                   | OPENAI_API_KEY    |
-| Anthropic | claude-sonnet-4-20250514 | ANTHROPIC_API_KEY |
-| Google    | gemini-2.0-flash-exp     | GOOGLE_API_KEY    |
+| Provider  | Default Model     | API Key Required  |
+|-----------|-------------------|-------------------|
+| OpenAI    | gpt-5             | OPENAI_API_KEY    |
+| Anthropic | claude-sonnet-4-5 | ANTHROPIC_API_KEY |
+| Google    | gemini-2.5-flash  | GOOGLE_API_KEY    |
 
 ```bash
 # List all providers
