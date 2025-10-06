@@ -132,10 +132,10 @@ Add your API keys to `.env`:
 
 ```bash
 # OpenAI
-OPENAI_API_KEY=sk-your-openai-key
+OPENAI_API_KEY=your-openai-key
 
 # Anthropic
-ANTHROPIC_API_KEY=sk-ant-your-anthropic-key
+ANTHROPIC_API_KEY=your-anthropic-key
 
 # Google
 GOOGLE_API_KEY=your-google-api-key
@@ -169,14 +169,14 @@ Select an option: [1/2/3/4/5/quit] (1): 1
 Selected commit message:
 ┌─────────────────────────────────────────────────────────┐
 │ feat(cli): add interactive commit message selection     │
-│                                                          │
+│                                                         │
 │ Implement a rich CLI interface that allows users to     │
 │ select from AI-generated commit message options with    │
-│ confidence scores.                                       │
+│ confidence scores.                                      │
 └─────────────────────────────────────────────────────────┘
 
-Do you want to edit this message? [y/N]: n
-Do you want to commit this message? [Y/n]: y
+Do you want to edit this message? [y/n] (n): n
+Do you want to commit this message? [y/n] (y): y
 Committed successfully!
 ```
 

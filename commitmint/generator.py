@@ -4,6 +4,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from .models import DiffAnalysis, CommitOptions
+from .providers import Provider, get_llm
 
 
 def load_prompt(file: str) -> str:
@@ -16,9 +17,24 @@ def load_prompt(file: str) -> str:
     return prompt_file.read_text().strip()
 
 
-def generate_messages(diff_text: str, analysis: DiffAnalysis,
-                      model_name: str = "gpt-5-mini", temperature: float = 0.25) -> CommitOptions:
-    llm = ChatOpenAI(model=model_name, temperature=temperature)
+def generate_messages(
+    diff_text: str,
+    analysis: DiffAnalysis,
+    provider: Provider = None,
+    model_name: str = None,
+    temperature: float = None
+) -> CommitOptions:
+    from .config import load_config
+    cfg = load_config()
+
+    if provider is None:
+        provider = cfg.provider
+    if model_name is None:
+        model_name = cfg.get_model()
+    if temperature is None:
+        temperature = cfg.temperature
+
+    llm = get_llm(provider, model_name, temperature)
     parser = PydanticOutputParser(pydantic_object=CommitOptions)
 
     system_prompt = load_prompt("system_prompt.txt")

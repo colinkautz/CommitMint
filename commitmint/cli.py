@@ -9,7 +9,7 @@ from rich.table import Table
 from . import git_handler
 from .generator import generate_messages
 from .providers import Provider, check_api_key, get_provider_info, DEFAULT_MODELS
-from .config import load_config, save_config, create_default_config, get_config_path, MintConfig
+from .config import load_config, save_config, create_default_config, get_config_path
 
 app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator")
 console = Console()
@@ -68,12 +68,7 @@ def generate(
 
         # Generate commit messages
         with console.status("[bold green]Analyzing changes and generating messages..."):
-            options = generate_messages(
-                diff,
-                analysis,
-                model_name=model_name,
-                temperature=cfg.temperature
-            )
+            options = generate_messages(diff, analysis)
 
         if not options or not options.options:
             console.print("[red]Failed to generate commit messages.[/red]")
@@ -264,12 +259,10 @@ def config(
             current_config.temperature = set_temperature
             console.print(f"[green]✓[/green] Set temperature to: {set_temperature}")
 
-        # Always save to home directory when using --set-*
         config_path = save_config(current_config)
         console.print(f"\n[dim]Saved to: {config_path}[/dim]")
         return
 
-    # Default: show help
     console.print("[bold blue]CommitMint Configuration[/bold blue]\n")
     console.print("Usage:")
     console.print("  mint config --init          Create default config")
