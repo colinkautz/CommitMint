@@ -2,7 +2,6 @@ from pathlib import Path
 
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
 from .models import DiffAnalysis, CommitOptions
 from .providers import Provider, get_llm
 
