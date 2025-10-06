@@ -20,7 +20,7 @@ CommitMint uses AI to analyze your git diffs and generate multiple high-quality,
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/commitmint.git
+git clone https://github.com/colinkautz/commitmint.git
 cd commitmint
 
 # Install
@@ -29,9 +29,9 @@ pip install -e .
 
 ### Setup
 
-1. Set your API key in `.env`:
+1. Create a `.env` file:
 ```bash
-echo "OPENAI_API_KEY=sk-your-api-key-here" > .env
+mint setup
 ```
 
 2. Stage your changes:
@@ -41,7 +41,7 @@ git add .
 
 3. Generate commit messages:
 ```bash
-mint
+mint generate
 ```
 
 That's it!
@@ -52,26 +52,26 @@ That's it!
 
 ```bash
 # Generate commit messages for staged changes
-mint
+mint generate
 
 # Use unstaged changes
-mint --unstaged
+mint generate --unstaged
 
 # Auto-commit without confirmation
-mint --commit
+mint generate --commit
 ```
 
 ### Advanced Usage
 
 ```bash
 # Use a different provider
-mint --provider anthropic
+mint generate --provider anthropic
 
 # Use a specific model
-mint --model gpt-4o
+mint generate --model gpt-4o
 
 # Adjust temperature (creativity)
-mint --temperature 0.5
+mint generate --temperature 0.5
 ```
 
 ## Configuration
@@ -146,7 +146,7 @@ GOOGLE_API_KEY=your-google-api-key
 ### Example Output
 
 ```bash
-$ mint
+$ mint generate
 
 mint - Generating commit messages...
 
@@ -224,7 +224,6 @@ This ensures that any modifications or derivative works must also be open source
 
 - Built with [LangChain](https://langchain.com)
 - CLI powered by [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/)
-- Inspired by the pain of writing commit messages at 2 AM
 
 ## Support
 

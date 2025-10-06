@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -159,6 +161,37 @@ def providers():
     console.print(table)
     console.print("\n[dim]Usage: mint --provider <provider> --model <model>[/dim]")
 
+
+@app.command()
+def setup():
+    console.print("[bold blue]CommitMint Setup[/bold blue]\n")
+
+    env_path = Path.cwd() / ".env"
+
+    if env_path.exists():
+        if not Confirm.ask(".env already exists. Overwrite?", default=False):
+            console.print("[yellow]Setup cancelled.[/yellow]")
+            return
+
+    env_content = """# CommitMint API Keys
+# Uncomment and add your API key for the provider you want to use
+
+# OpenAI
+OPENAI_API_KEY=your-openai-api-key-here
+
+# Anthropic Claude
+# ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+# Google Gemini
+# GOOGLE_API_KEY=your-google-api-key-here
+"""
+
+    with open(env_path, 'w') as f:
+        f.write(env_content)
+
+    console.print(f"[green]✓[/green] Created .env file")
+    console.print(f"[yellow]→[/yellow] Edit .env and add your API key")
+    console.print(f"[dim]   {env_path.absolute()}[/dim]")
 
 @app.command()
 def config(
