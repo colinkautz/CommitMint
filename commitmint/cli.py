@@ -21,7 +21,7 @@ def generate(
         auto_commit: bool = typer.Option(None, "--commit", "-c", help="Automatically commit with selected message"),
         provider: Provider = typer.Option(None, "--provider", "-p", help="LLM provider to use"),
         model: str = typer.Option(None, "--model", "-m", help="Model name (uses provider default if not specified)"),
-        temperature: float = typer.Option(None, "--temperature", "-t", help="Generation temperature (0.0-1.0)"),
+        temperature: float = typer.Option(None, "--temp", "-t", help="Generation temperature (0.0 - 1.0)"),
 ):
     # Load config and override with CLI args
     cfg = load_config()
@@ -191,7 +191,7 @@ def config(
         edit: bool = typer.Option(False, "--edit", help="Open config file in editor"),
         set_provider: str = typer.Option(None, "--set-provider", help="Set default provider"),
         set_model: str = typer.Option(None, "--set-model", help="Set default model"),
-        set_temperature: float = typer.Option(None, "--set-temperature", help="Set default temperature")
+        set_temperature: float = typer.Option(None, "--set-temp", help="Set default temperature")
 ):
     # Configure CommitMint settings
 
@@ -262,7 +262,7 @@ def config(
     console.print("  mint config --edit          Edit config file")
     console.print("  mint config --set-provider openai")
     console.print("  mint config --set-model gpt-5")
-    console.print("  mint config --set-temperature 0.3")
+    console.print("  mint config --set-temp 0.3")
 
 
 @app.callback(invoke_without_command=True)
