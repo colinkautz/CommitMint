@@ -23,8 +23,6 @@ def generate(
         model: str = typer.Option(None, "--model", "-m", help="Model name (uses provider default if not specified)"),
         temperature: float = typer.Option(None, "--temperature", "-t", help="Generation temperature (0.0-1.0)"),
 ):
-    """Generate AI-powered commit messages from your git diff"""
-
     # Load config and override with CLI args
     cfg = load_config()
 
@@ -47,7 +45,6 @@ def generate(
         console.print(f"  {provider_info['api_key_var']}=your-api-key-here")
         raise typer.Exit(1)
 
-    # Display config being used
     model_name = cfg.get_model()
     console.print(f"[dim]Using {cfg.provider.value} with model: {model_name}[/dim]\n")
 
@@ -132,7 +129,6 @@ def generate(
 
 @app.command()
 def providers():
-    """List available LLM providers and their configuration"""
     console.print("[bold blue]Available LLM Providers:[/bold blue]\n")
 
     table = Table(show_header=True, header_style="bold magenta")
@@ -200,14 +196,12 @@ def config(
     # Configure CommitMint settings
 
     if init:
-        # Create new config file in home directory
         config_path = create_default_config()
         console.print(f"[green]✓[/green] Created config file at: {config_path}")
         console.print("[dim]Edit it to customize your settings[/dim]")
         return
 
     if edit:
-        # Open config in editor
         config_path = get_config_path()
         if not config_path.exists():
             console.print("[yellow]No config file found. Creating default...[/yellow]")
@@ -218,7 +212,6 @@ def config(
         return
 
     if show:
-        # Show current config
         current_config = load_config()
         config_path = get_config_path()
 
@@ -238,7 +231,6 @@ def config(
         console.print(table)
         return
 
-    # Set specific values
     if any([set_provider, set_model, set_temperature]):
         current_config = load_config()
 

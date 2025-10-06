@@ -17,12 +17,11 @@ class MintConfig(BaseModel):
 
 
 def get_config_path() -> Path:
-    """Get the path to the config file (~/.mintrc)"""
     return Path.home() / ".mintrc"
 
 
 def load_config() -> MintConfig:
-    """Load configuration from file, or return defaults"""
+    #Load configuration from file, or return defaults
     config_path = get_config_path()
 
     if not config_path.exists():
@@ -35,7 +34,6 @@ def load_config() -> MintConfig:
                 return MintConfig()
             return MintConfig(**data)
     except (yaml.YAMLError, IOError, OSError, ValidationError):
-        # If config is invalid, return defaults
         return MintConfig()
 
 
@@ -72,7 +70,7 @@ num_options: {config.num_options}
 
 
 def create_default_config() -> Path:
-    """Create a default config file at ~/.mintrc"""
+    # Create a default config file at ~/.mintrc
     config_path = get_config_path()
 
     config_path.parent.mkdir(parents=True, exist_ok=True)
