@@ -2,7 +2,7 @@
 
 **The freshest AI-powered git commit message generator**
 
-CommitMint uses AI to analyze your git diffs and generate multiple high-quality, conventional commit message options. Never stare at `git commit -m ""` again.
+CommitMint uses AI to analyze your git diffs and generate multiple high-quality, conventional commit message options. Never stare at `git commit -m ""` again!
 
 ## Features
 
@@ -210,9 +210,8 @@ Contributions are welcome! Here's how you can help:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Use CommitMint to generate your commit message!
-5. Push to your branch (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
+4. Push to your branch
+5. Open a Pull Request
 
 ## License
 
