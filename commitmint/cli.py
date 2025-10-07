@@ -89,17 +89,30 @@ def generate(
         console.print(table)
 
         # User selection
-        choice = Prompt.ask(
-            "\nSelect an option:",
-            choices=[str(i) for i in range(1, len(options.options) + 1)] + ["quit"],
-            default="1"
-        )
+        while True:
+            choice = Prompt.ask(
+                "\nSelect an option:",
+                choices=[str(i) for i in range(1, len(options.options) + 1)] + ["preview", "quit"],
+                default="1"
+            )
 
-        if choice == "quit":
-            console.print("[yellow]Cancelled.[/yellow]")
-            return
+            if choice == "quit":
+                console.print("[yellow]Cancelled.[/yellow]")
+                return
+
+            if choice == "preview":
+                console.print("\n[bold]Full message previews:[/bold]\n")
+                for i, msg in enumerate(options.options, 1):
+                    console.print(f"[bold cyan]Option {i}:[/bold cyan]")
+                    console.print(Panel(msg.format(), border_style="dim"))
+                    console.print()
+                continue  # Go back to selection prompt
+
+            # If we get here, it's a valid number selection
+            break
 
         selected = options.options[int(choice) - 1]
+
 
         # Show full message
         console.print("\n[bold]Selected commit message:[/bold]")
