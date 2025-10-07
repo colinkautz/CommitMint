@@ -11,11 +11,13 @@ from .generator import generate_messages
 from .providers import Provider, check_api_key, get_provider_info, DEFAULT_MODELS
 from .config import load_config, save_config, create_default_config, get_config_path
 
-app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator", add_completion=False)
+app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator",
+                  add_completion=False,
+                  rich_markup_mode="rich")
 console = Console()
 
 
-@app.command()
+@app.command(help="Generated commit messages from your git changes")
 def generate(
         use_unstaged: bool = typer.Option(False, "--unstaged", "-u", help="Use unstaged changes instead of staged"),
         auto_commit: bool = typer.Option(None, "--commit", "-c", help="Automatically commit with selected message"),
@@ -137,7 +139,7 @@ def generate(
         raise typer.Exit(1)
 
 
-@app.command()
+@app.command(help="List available LLM providers and their configuration status")
 def providers():
     console.print("[bold blue]Available LLM Providers:[/bold blue]\n")
 
@@ -163,7 +165,7 @@ def providers():
     console.print("\n[dim]Usage: mint --provider <provider> --model <model>[/dim]")
 
 
-@app.command()
+@app.command(help="Create an .env file with API key placeholders")
 def setup():
     console.print("[bold blue]CommitMint Setup[/bold blue]\n")
 
@@ -194,7 +196,7 @@ OPENAI_API_KEY=your-openai-api-key-here
     console.print(f"[yellow]→[/yellow] Edit .env and add your API key")
     console.print(f"[dim]   {env_path.absolute()}[/dim]")
 
-@app.command()
+@app.command(help="Manage CommitMint configuration (~/.mintrc)")
 def config(
         init: bool = typer.Option(False, "--init", help="Create a default config file"),
         show: bool = typer.Option(False, "--show", help="Show current configuration"),
