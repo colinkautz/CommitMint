@@ -29,18 +29,16 @@ pip install -e .
 
 ### Setup
 
-1. Create a `.env` file:
+1. Initialize CommitMint (creates `.env` and `~/.mintrc`):
 ```bash
 mint setup
 ```
 
-2. Stage your changes:
+2. Edit `.env` and add your API key for your preferred provider
+
+3. Stage your changes and generate:
 ```bash
 git add .
-```
-
-3. Generate commit messages:
-```bash
 mint generate
 ```
 
@@ -48,49 +46,48 @@ That's it!
 
 ## Usage
 
-### Basic Usage
+### Basic Commands
 
 ```bash
 # Generate commit messages for staged changes
 mint generate
 
-# Use unstaged changes
+# Preview messages for unstaged changes (won't commit)
 mint generate --unstaged
 
 # Auto-commit without confirmation
 mint generate --commit
 ```
 
-### Advanced Usage (does not override config file)
+### Provider Options
 
 ```bash
 # Use a different provider
-mint generate --provider openai
+mint generate --provider anthropic
 
 # Use a specific model
 mint generate --model gpt-4o
 
-# Adjust temperature (creativity)
+# Adjust temperature (creativity: 0.0 - 1.0)
 mint generate --temp 0.5
 ```
 
+**Note**: Command-line options override your config file settings for that run only.
+
 ## Configuration
 
-CommitMint can be configured via `~/.mintrc`:
+CommitMint stores configuration in `~/.mintrc`:
 
 ```bash
-# Create default config
-mint config --init
-
-# Edit config
-mint config --edit
-
-# Show current config
+# Show current configuration
 mint config --show
+
+# Edit config file in your default editor
+mint config --edit
 
 # Set specific values
 mint config --set-provider anthropic
-mint config --set-model claude-opus-4-0
+mint config --set-model claude-sonnet-4-5
 mint config --set-temp 0.3
 ```
 
@@ -122,13 +119,13 @@ num_options: 5
 | Google    | gemini-2.5-flash  | GOOGLE_API_KEY    |
 
 ```bash
-# List all providers
+# List all providers and check API key status
 mint providers
 ```
 
-### Setting up API Keys
+### API Keys
 
-Add your API keys to `.env`:
+Add your API keys to the `.env` file created by `mint setup`:
 
 ```bash
 # OpenAI
@@ -141,9 +138,7 @@ ANTHROPIC_API_KEY=your-anthropic-key
 GOOGLE_API_KEY=your-google-api-key
 ```
 
-## Examples
-
-### Example Output
+## Example Output
 
 ```bash
 $ mint generate
@@ -180,9 +175,19 @@ Do you want to commit this message? [y/n] (y): y
 Committed successfully!
 ```
 
-## Development
+## Command Reference
 
-### Project Structure
+```bash
+mint generate          # Generate commit messages from staged changes
+mint generate --help   # Show all generate options
+
+mint setup             # Initialize .env and config files
+mint providers         # List available LLM providers
+mint config --show     # Display current configuration
+mint config --edit     # Edit configuration file
+```
+
+## Project Structure
 
 ```
 commitmint/
@@ -199,7 +204,7 @@ commitmint/
 │       └── human_prompt.txt
 ├── pyproject.toml
 ├── requirements.txt
-├── .env.example
+├── .env
 └── README.md
 ```
 

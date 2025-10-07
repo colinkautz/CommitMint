@@ -165,18 +165,24 @@ def providers():
     console.print("\n[dim]Usage: mint --provider <provider> --model <model>[/dim]")
 
 
-@app.command(help="Create an .env file with API key placeholders")
+@app.command(help="Initialize CommitMint with .env and config files")
 def setup():
     console.print("[bold blue]CommitMint Setup[/bold blue]\n")
 
+    # Create .env file
     env_path = Path.cwd() / ".env"
+    env_created = False
 
     if env_path.exists():
         if not Confirm.ask(".env already exists. Overwrite?", default=False):
-            console.print("[yellow]Setup cancelled.[/yellow]")
-            return
+            console.print("[yellow].env setup skipped.[/yellow]")
+        else:
+            env_created = True
+    else:
+        env_created = True
 
-    env_content = """# CommitMint API Keys
+    if env_created:
+        env_content = """# CommitMint API Keys
 # Uncomment and add your API key for the provider you want to use
 
 # OpenAI
@@ -188,13 +194,34 @@ OPENAI_API_KEY=your-openai-api-key-here
 # Google Gemini
 # GOOGLE_API_KEY=your-google-api-key-here
 """
+        with open(env_path, 'w') as f:
+            f.write(env_content)
 
-    with open(env_path, 'w') as f:
-        f.write(env_content)
+        console.print(f"[green]✓[/green] Created .env file")
+        console.print(f"[dim]   {env_path.absolute()}[/dim]")
 
-    console.print(f"[green]✓[/green] Created .env file")
-    console.print(f"[yellow]→[/yellow] Edit .env and add your API key")
-    console.print(f"[dim]   {env_path.absolute()}[/dim]")
+    # Create config file
+    config_path = get_config_path()
+    config_created = False
+
+    if config_path.exists():
+        if not Confirm.ask(f"\n~/.mintrc already exists. Overwrite?", default=False):
+            console.print("[yellow]Config setup skipped.[/yellow]")
+        else:
+            config_created = True
+    else:
+        config_created = True
+
+    if config_created:
+        config_path = create_default_config()
+        console.print(f"[green]✓[/green] Created config file")
+        console.print(f"[dim]   {config_path}[/dim]")
+
+    # Final instructions
+    console.print(f"\n[bold green]Setup complete![/bold green]")
+    console.print(f"\n[yellow]Next steps:[/yellow]")
+    console.print(f"  1. Edit .env and add your API key")
+    console.print(f"  2. Run: mint generate")
 
 @app.command(help="Manage CommitMint configuration (~/.mintrc)")
 def config(
