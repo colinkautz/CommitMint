@@ -11,7 +11,7 @@ from .generator import generate_messages
 from .providers import Provider, check_api_key, get_provider_info, DEFAULT_MODELS
 from .config import load_config, save_config, create_default_config, get_config_path
 
-app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator")
+app = typer.Typer(help="CommitMint - the freshest AI-Powered Git Commit Message Generator", add_completion=False)
 console = Console()
 
 
@@ -21,7 +21,7 @@ def generate(
         auto_commit: bool = typer.Option(None, "--commit", "-c", help="Automatically commit with selected message"),
         provider: Provider = typer.Option(None, "--provider", "-p", help="LLM provider to use"),
         model: str = typer.Option(None, "--model", "-m", help="Model name (uses provider default if not specified)"),
-        temperature: float = typer.Option(None, "--temperature", "-t", help="Generation temperature (0.0-1.0)"),
+        temperature: float = typer.Option(None, "--temp", "-t", help="Generation temperature (0.0 - 1.0)"),
 ):
     # Load config and override with CLI args
     cfg = load_config()
@@ -114,8 +114,18 @@ def generate(
         else:
             message_to_use = selected.format()
 
-        if cfg.auto_commit or Confirm.ask("Do you want to commit this message?", default=True):
+        if use_unstaged:
+            console.print("\n[yellow]Note: you cannot auto-commit with --unstaged.[/yellow]")
+            console.print("[dim]Stage your changes and run without --unstaged to commit.[/dim]")
+            console.print("\n[dim]Copy this message to commit manually:[/dim]")
+            console.print(Panel(message_to_use, border_style="dim"))
+        elif cfg.auto_commit or Confirm.ask("Do you want to commit this message?", default=True):
             repo = git_handler.get_repo()
+
+            if not git_handler.has_staged_changes():
+                console.print("[red]No staged changes found.[/red]")
+                raise typer.Exit(1)
+
             repo.index.commit(message_to_use)
             console.print("[green]Committed successfully![/green]")
         else:
@@ -191,7 +201,7 @@ def config(
         edit: bool = typer.Option(False, "--edit", help="Open config file in editor"),
         set_provider: str = typer.Option(None, "--set-provider", help="Set default provider"),
         set_model: str = typer.Option(None, "--set-model", help="Set default model"),
-        set_temperature: float = typer.Option(None, "--set-temperature", help="Set default temperature")
+        set_temperature: float = typer.Option(None, "--set-temp", help="Set default temperature")
 ):
     # Configure CommitMint settings
 
@@ -262,7 +272,7 @@ def config(
     console.print("  mint config --edit          Edit config file")
     console.print("  mint config --set-provider openai")
     console.print("  mint config --set-model gpt-5")
-    console.print("  mint config --set-temperature 0.3")
+    console.print("  mint config --set-temp 0.3")
 
 
 @app.callback(invoke_without_command=True)

@@ -61,17 +61,17 @@ mint generate --unstaged
 mint generate --commit
 ```
 
-### Advanced Usage
+### Advanced Usage (does not override config file)
 
 ```bash
 # Use a different provider
-mint generate --provider anthropic
+mint generate --provider openai
 
 # Use a specific model
 mint generate --model gpt-4o
 
 # Adjust temperature (creativity)
-mint generate --temperature 0.5
+mint generate --temp 0.5
 ```
 
 ## Configuration
@@ -90,8 +90,8 @@ mint config --show
 
 # Set specific values
 mint config --set-provider anthropic
-mint config --set-model claude-sonnet-4-20250514
-mint config --set-temperature 0.3
+mint config --set-model claude-opus-4-0
+mint config --set-temp 0.3
 ```
 
 ### Configuration Options
