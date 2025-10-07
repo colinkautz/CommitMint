@@ -114,8 +114,18 @@ def generate(
         else:
             message_to_use = selected.format()
 
-        if cfg.auto_commit or Confirm.ask("Do you want to commit this message?", default=True):
+        if use_unstaged:
+            console.print("\n[yellow]Note: you cannot auto-commit with --unstaged.[/yellow]")
+            console.print("[dim]Stage your changes and run without --unstaged to commit.[/dim]")
+            console.print("\n[dim]Copy this message to commit manually:[/dim]")
+            console.print(Panel(message_to_use, border_style="dim"))
+        elif cfg.auto_commit or Confirm.ask("Do you want to commit this message?", default=True):
             repo = git_handler.get_repo()
+
+            if not git_handler.has_staged_changes():
+                console.print("[red]No staged changes found.[/red]")
+                raise typer.Exit(1)
+
             repo.index.commit(message_to_use)
             console.print("[green]Committed successfully![/green]")
         else:
