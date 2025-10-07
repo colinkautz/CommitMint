@@ -116,6 +116,7 @@ def generate(
         else:
             message_to_use = selected.format()
 
+        # if --unstaged, do not commit, otherwise full speed ahead
         if use_unstaged:
             console.print("\n[yellow]Note: you cannot auto-commit with --unstaged.[/yellow]")
             console.print("[dim]Stage your changes and run without --unstaged to commit.[/dim]")
@@ -221,7 +222,7 @@ OPENAI_API_KEY=your-openai-api-key-here
     console.print(f"\n[bold green]Setup complete![/bold green]")
     console.print(f"\n[yellow]Next steps:[/yellow]")
     console.print(f"  1. Edit .env and add your API key")
-    console.print(f"  2. Run: mint generate")
+    console.print(f"  2. Read the README")
 
 @app.command(help="Manage CommitMint configuration (~/.mintrc)")
 def config(
